@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="list-group">
+    <a  class="list-group-item" *ngFor="let problem of mockPro">
+      <span class="{{ 'label difficulty diff-' + problem.difficulty.toLocaleLowerCase()}}">{{problem.difficulty}}</span>
+      <strong>{{problem.id}}. {{problem.name}} <br></strong>
+      {{problem.desc}}<br>
+    </a>
+  </div>
+</div>
