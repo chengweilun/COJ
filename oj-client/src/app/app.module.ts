@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { ProblemListComponent } from './problem-list/problem-list.component';
 import { DataService } from './data.service';
 import { ProblemDetailComponent } from './problem-detail/problem-detail.component';
+import { routing } from './app.routes';
 
 @NgModule({
   declarations: [
@@ -13,10 +14,14 @@ import { ProblemDetailComponent } from './problem-detail/problem-detail.componen
     ProblemDetailComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    routing
   ],
-  providers: [{provide: 'data',
-    useClass: DataService}],
+  providers: [
+    {
+      provide: 'data',
+      useClass: DataService
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

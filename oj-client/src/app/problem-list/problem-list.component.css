@@ -3,10 +3,18 @@
   margin-right: 10px;
 }
 
+/*.span {*/
+  /*width:200px; text-align:center;*/
+/*}*/
+
+/*span {width:60px; text-align:center; display:block; }*/
+
 .label.difficulty {
   padding-top: 0.6em;
   color: #fbfdfa;
   font-size: 12px;
+  width:60px; text-align:center;
+  display:inline-block;
 }
 
 .title {

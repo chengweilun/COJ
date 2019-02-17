@@ -11,5 +11,9 @@ export class DataService {
     return mockProblems;
   }
 
+  getProblem(id: number): ProblemModel {
+    return mockProblems.find((problem) => problem.id === id);
+  }
+
   constructor() { }
 }

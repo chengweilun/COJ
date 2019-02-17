@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {ProblemModel} from '../problem.model';
+import { ProblemModel } from '../problem.model';
+
 
 @Component({
   selector: 'app-problem-list',
