@@ -1,4 +1,5 @@
 <div class="container">
+  <app-new-problem></app-new-problem><br>
   <div class="list-group">
     <a class="list-group-item" *ngFor="let problem of mockPro" [routerLink]="['/problems',problem.id]">
       <span class="{{ 'label difficulty diff-' + problem.difficulty.toLocaleLowerCase()}}">{{problem.difficulty}}</span>

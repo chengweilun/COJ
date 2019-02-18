@@ -14,9 +14,17 @@ export class ProblemDetailComponent implements OnInit {
   constructor(@Inject('data') private data, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.getProblem();
+  }
+
+
+  getProblem(): void {
+    let id;
     this.route.params.subscribe(params => {
-      this.problem = this.data.getProblem(parseInt(params['id'], 10));
+      id = +params['id'];
     });
+    this.data.getProblem(id)
+      .subscribe(pro => this.problem = pro);
   }
 
 }

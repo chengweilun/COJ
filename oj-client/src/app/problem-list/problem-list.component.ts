@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ProblemModel } from '../problem.model';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -9,11 +10,16 @@ import { ProblemModel } from '../problem.model';
 })
 
 export class ProblemListComponent implements OnInit {
-  mockPro: ProblemModel[];
+  mockPro: ProblemModel[] = [];
+  subscriptionProblems: Subscription;
   constructor(@Inject( 'data' ) private data) { }
 
   ngOnInit() {
-    this.mockPro = this.data.getProblems();
+    this.getProblems();
+  }
+
+  getProblems(): void {
+    this.subscriptionProblems = this.data.getProblems().subscribe(problems => this.mockPro = problems);
   }
 
 }
