@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 
 export class ProblemListComponent implements OnInit {
   mockPro: ProblemModel[] = [];
-  subscriptionProblems: Subscription;
   constructor(@Inject( 'data' ) private data) { }
 
   ngOnInit() {
@@ -19,7 +18,7 @@ export class ProblemListComponent implements OnInit {
   }
 
   getProblems(): void {
-    this.subscriptionProblems = this.data.getProblems().subscribe(problems => this.mockPro = problems);
+    this.data.getProblems().subscribe(problems => this.mockPro = problems);
   }
 
 }

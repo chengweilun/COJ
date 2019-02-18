@@ -4,7 +4,6 @@ import { ProblemModel } from './problem.model';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
-import {subscribeToPromise} from 'rxjs/internal-compatibility';
 
 
 const httpOptions = {
@@ -18,14 +17,10 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   getProblems(): Observable<ProblemModel[]> {
-    // this.http.get<ProblemModel[]>('api/v1/problems')
-    //   .pipe(tap(problems => this.problemsSource.next(problems)),
-    //     catchError(this.handleError('getProblems', []))
-    //   );
-    this.http.get<ProblemModel[]>('api/v1/problems')
-  .toPromise().then((res) => {
+    this.http.get<ProblemModel[]>('api/v1/problems').
+    toPromise().then((res) => {
     this.problemsSource.next(res);
-    }).catch();
+    }).catch((error) => console.log(error));
     return this.problemsSource.asObservable();
   }
 
@@ -33,16 +28,6 @@ export class DataService {
     return this.http.get<ProblemModel>(`api/v1/problems/${id}`).pipe(
       tap(), catchError(this.handleError<ProblemModel>('getProblem')));
   }
-
-  // addnewProblem(problem: ProblemModel): Promise<ProblemModel> {
-  //     return this.http.post('api/v1/problems', problem, httpOptions)
-  //       .toPromise()
-  //       .then((res: HttpResponse<ProblemModel[]>) => {
-  //         res = this.getProblems();
-  //         return res.body;
-  //       })
-  //       .catch(this.handleError);
-  //   }
 
   addProblem(newProblem: ProblemModel): Observable<ProblemModel> {
     return this.http.post<ProblemModel>('api/v1/problems', newProblem, httpOptions).pipe(

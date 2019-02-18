@@ -216,28 +216,15 @@ var DataService = /** @class */ (function () {
     }
     DataService.prototype.getProblems = function () {
         var _this = this;
-        // this.http.get<ProblemModel[]>('api/v1/problems')
-        //   .pipe(tap(problems => this.problemsSource.next(problems)),
-        //     catchError(this.handleError('getProblems', []))
-        //   );
-        this.http.get('api/v1/problems')
-            .toPromise().then(function (res) {
+        this.http.get('api/v1/problems').
+            toPromise().then(function (res) {
             _this.problemsSource.next(res);
-        }).catch();
+        }).catch(function (error) { return console.log(error); });
         return this.problemsSource.asObservable();
     };
     DataService.prototype.getProblem = function (id) {
         return this.http.get("api/v1/problems/" + id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError('getProblem')));
     };
-    // addnewProblem(problem: ProblemModel): Promise<ProblemModel> {
-    //     return this.http.post('api/v1/problems', problem, httpOptions)
-    //       .toPromise()
-    //       .then((res: HttpResponse<ProblemModel[]>) => {
-    //         res = this.getProblems();
-    //         return res.body;
-    //       })
-    //       .catch(this.handleError);
-    //   }
     DataService.prototype.addProblem = function (newProblem) {
         var _this = this;
         return this.http.post('api/v1/problems', newProblem, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(function (_) { return _this.getProblems(); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError('addProblem')));
@@ -360,8 +347,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewProblemComponent", function() { return NewProblemComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-
 
 
 var DEFAULT_PROBLEM = Object.freeze({
@@ -371,19 +356,16 @@ var DEFAULT_PROBLEM = Object.freeze({
     difficulty: 'Easy'
 });
 var NewProblemComponent = /** @class */ (function () {
-    function NewProblemComponent(data, location) {
+    function NewProblemComponent(data) {
         this.data = data;
-        this.location = location;
         this.difficulties = ['Easy', 'Medium', 'Hard', 'Super'];
         this.newProblem = Object.assign({}, DEFAULT_PROBLEM);
     }
     NewProblemComponent.prototype.ngOnInit = function () {
     };
     NewProblemComponent.prototype.addNewProblem = function () {
-        console.log(this.newProblem);
         this.data.addProblem(this.newProblem).subscribe();
         this.newProblem = Object.assign({}, DEFAULT_PROBLEM);
-        // this.location.back();
     };
     NewProblemComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -392,7 +374,7 @@ var NewProblemComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./new-problem.component.css */ "./src/app/new-problem/new-problem.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])('data')),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [Object, _angular_common__WEBPACK_IMPORTED_MODULE_2__["Location"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [Object])
     ], NewProblemComponent);
     return NewProblemComponent;
 }());
@@ -518,7 +500,7 @@ var ProblemListComponent = /** @class */ (function () {
     };
     ProblemListComponent.prototype.getProblems = function () {
         var _this = this;
-        this.subscriptionProblems = this.data.getProblems().subscribe(function (problems) { return _this.mockPro = problems; });
+        this.data.getProblems().subscribe(function (problems) { return _this.mockPro = problems; });
     };
     ProblemListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

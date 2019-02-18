@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { ProblemModel } from '../problem.model';
-import { Location } from '@angular/common';
 
 
 const DEFAULT_PROBLEM: ProblemModel = Object.freeze({
@@ -18,16 +17,14 @@ const DEFAULT_PROBLEM: ProblemModel = Object.freeze({
 export class NewProblemComponent implements OnInit {
   public difficulties = ['Easy', 'Medium', 'Hard', 'Super'];
   newProblem: ProblemModel = Object.assign({}, DEFAULT_PROBLEM);
-  constructor(@Inject('data') private data, private location: Location) { }
+  constructor(@Inject('data') private data) { }
 
   ngOnInit() {
   }
 
   addNewProblem(): void {
-    console.log(this.newProblem);
     this.data.addProblem(this.newProblem).subscribe();
     this.newProblem = Object.assign({}, DEFAULT_PROBLEM);
-    // this.location.back();
   }
 
 }
