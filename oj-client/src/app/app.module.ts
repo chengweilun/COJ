@@ -9,6 +9,7 @@ import { ProblemDetailComponent } from './problem-detail/problem-detail.componen
 import { routing } from './app.routes';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NewProblemComponent } from './new-problem/new-problem.component';
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NewProblemComponent } from './new-problem/new-problem.component';
     ProblemListComponent,
     ProblemDetailComponent,
     NavbarComponent,
-    NewProblemComponent
+    NewProblemComponent,
+    EditorComponent
   ],
   imports: [
     FormsModule,

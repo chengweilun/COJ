@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ProblemModel } from '../problem.model';
-import { Subscription } from 'rxjs';
 
 
 @Component({
