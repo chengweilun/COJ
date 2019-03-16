@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ProblemListComponent } from './problem-list/problem-list.component';
 import { DataService } from './data.service';
+import { CollaborationService } from "./collaboration.service";
 import { ProblemDetailComponent } from './problem-detail/problem-detail.component';
 import { routing } from './app.routes';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -30,7 +31,12 @@ import { EditorComponent } from './editor/editor.component';
     {
       provide: 'data',
       useClass: DataService
-    }],
+    },
+    {
+      provide: 'collaboration',
+      useClass: CollaborationService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 declare var ace: any;
 
@@ -37,10 +38,15 @@ export class EditorComponent implements OnInit {
     #type your code here`
   };
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, @Inject('collaboration') private collaboration) { }
 
   ngOnInit() {
-    this.initEditor();
+    // sessionId equal to the problem number
+    this.route.params.subscribe(params => {
+      this.sessionId = params[`id`];
+      console.log('print out: ' + params);
+      this.initEditor();
+    });
   }
 
   initEditor() {
@@ -51,7 +57,34 @@ export class EditorComponent implements OnInit {
     this.editor.$blockScrolling = Infinity;
 
     document.getElementsByTagName('textarea')[0].focus();
+    this.collaboration.init(this.editor, this.sessionId);
     this.editor.lastAppliedChange = null;
+
+    // binding the editor and socket_io
+    this.editor.on('change', (e) => {
+      console.log('editor changes: ' + JSON.stringify(e));
+      if (this.editor.lastAppliedChange !== e) {
+        this.collaboration.change(JSON.stringify(e));
+      }
+    });
+
+    this.editor.getSession().getSelection().on('changeCursor', () => {
+      const cursor = this.editor.getSession().getSelection().getCursor();
+      console.log('cursor moves: ' + JSON.stringify(cursor));
+      this.collaboration.cursorMove(JSON.stringify(cursor));
+    });
+
+    this.collaboration.restoreBuffer();
+  }
+
+  resetEditor(): void {
+    this.editor.getSession().setMode(this.defaultMode[this.language]);
+    this.editor.setValue(this.defaultContent[this.language]);
+  }
+
+  submit(): void {
+    const userCode = this.editor.getValue();
+    console.log(userCode);
   }
 
 }
