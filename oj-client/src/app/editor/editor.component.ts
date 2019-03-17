@@ -10,6 +10,8 @@ declare var ace: any;
 })
 export class EditorComponent implements OnInit {
 
+  output = '';
+
   editor: any;
 
   sessionId: string;
@@ -38,7 +40,7 @@ export class EditorComponent implements OnInit {
     #type your code here`
   };
 
-  constructor(private route: ActivatedRoute, @Inject('collaboration') private collaboration) { }
+  constructor(private route: ActivatedRoute, @Inject('collaboration') private collaboration, @Inject('data') private data) { }
 
   ngOnInit() {
     // sessionId equal to the problem number
@@ -80,11 +82,19 @@ export class EditorComponent implements OnInit {
   resetEditor(): void {
     this.editor.getSession().setMode(this.defaultMode[this.language]);
     this.editor.setValue(this.defaultContent[this.language]);
+    this.output = '';
   }
 
   submit(): void {
     const userCode = this.editor.getValue();
-    console.log(userCode);
+    const data = {
+      user_code: userCode,
+      lang: this.language.toLowerCase()
+    };
+    this.data.buildAndRun(data).then(res => this.output = JSON.stringify(res));
   }
 
+  // setLanguage(lang) {
+  //   this.language = lang;
+  // }
 }

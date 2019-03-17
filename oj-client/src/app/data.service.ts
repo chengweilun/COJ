@@ -34,6 +34,21 @@ export class DataService {
       tap(_ => this.getProblems()), catchError(this.handleError<ProblemModel>('addProblem'))
     );
   }
+
+  buildAndRun(data): Promise<Object> {
+    // const headers = new Headers();
+    // // headers.append('content-type', 'application/json');
+    return this.http.post<Promise<Object>>('api/v1/build_and_run', data, httpOptions)
+      .toPromise()
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch(this.handleError);
+    //return this.http.post<Promise<Object>>('api/v1/build_and_run', data, httpOptions)
+     // .pipe(tap(res => return res),catchError(this.handleError('build_and_run'))
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -46,7 +61,7 @@ export class DataService {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 
-      // // TODO: better job of transforming error for user consumption
+      // TODO: better job of transforming error for user consumption
       // this.log(`${operation} failed: ${error.message}`);
 
       // Let the app keep running by returning an empty result.
